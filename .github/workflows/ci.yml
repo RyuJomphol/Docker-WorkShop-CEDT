@@ -43,7 +43,7 @@ jobs:
 
       # TODO(step-6e): tag and push the image as both :latest and :${{ github.sha }}.
       - name: Tag and push
-      run: |
+        run: |
           FULL=${{ secrets.DOCKERHUB_USERNAME }}/$IMAGE_NAME
           docker tag $IMAGE_NAME:${{ github.sha }} $FULL:${{ github.sha }}
           docker tag $IMAGE_NAME:${{ github.sha }} $FULL:latest
