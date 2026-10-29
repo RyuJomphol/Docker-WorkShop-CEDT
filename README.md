@@ -63,7 +63,7 @@ Should print three matching lines.
 
 Open `Dockerfile` and complete `TODO(step-4a)` through `TODO(step-4g)` (7 markers).
 Pay special attention to **step-4f** — the HEALTHCHECK uses a **Node one-liner**
-because `node:20.11-slim` does **not** include `curl` or `wget`.
+because the Node slim image does **not** include `curl` or `wget`.
 
 ### Step 5 — docker-compose.yml
 

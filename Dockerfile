@@ -4,9 +4,8 @@
 # Builder stage — installs production dependencies only, on a fresh Node base.
 # =============================================================================
 
-# TODO(step-4a): set the builder base image as node:20.11-slim and name the stage "builder".
-FROM node:20.11-slim AS builder
-#   Do NOT use `node:latest` — we want reproducible builds across the cohort.
+# Use a current, supported Node LTS release and pin the point version for reproducible builds.
+FROM node:24.22.2-slim AS builder
 
 WORKDIR /app
 
@@ -21,8 +20,8 @@ COPY app/ .
 # Runtime stage — slim final image. Nothing from builder's caches leaks in.
 # =============================================================================
 
-# TODO(step-4d): set the runtime base image (same tag as step-4a for consistency).
-FROM node:20.11-slim
+# Use the same Node release in the runtime image.
+FROM node:24.22.2-slim
 
 WORKDIR /app
 
@@ -33,7 +32,7 @@ ENV NODE_ENV=production
 EXPOSE 3000
 
 # TODO(step-4f): add a HEALTHCHECK that probes http://localhost:3000/health.
-#   IMPORTANT: `node:20.11-slim` does NOT ship with curl or wget.
+#   IMPORTANT: the Node slim image does NOT ship with curl or wget.
 #   Use Node's built-in http module instead:
 HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=5 \
 CMD node -e "require('http').get('http://localhost:3000/health', r => process.exit(r.statusCode===200?0:1)).on('error', () => process.exit(1))"
